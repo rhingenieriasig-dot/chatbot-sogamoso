@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chatbot - Municipio de Sogamoso</title>
+  <meta name="description" content="Asistente virtual para licencias de intervención y ocupación del espacio público - Municipio de Sogamoso" />
+  <meta name="author" content="Municipio de Sogamoso" />
+  <title>Asistente Virtual - Municipio de Sogamoso</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,7 +23,10 @@
       color: #333;
       max-width: 600px;
       margin: 20px auto;
+      font-size: 16px;
+      line-height: 1.5;
     }
+    /* Botón flotante del chat */
     .chat-button {
       position: fixed;
       bottom: 25px;
@@ -35,9 +40,14 @@
       cursor: pointer;
       font-size: 28px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.2s;
+      z-index: 1000;
     }
-    .chat-button:hover { background-color: #006fe6; }
+    .chat-button:hover {
+      background-color: #006fe6;
+      transform: scale(1.1);
+    }
+    /* Contenedor del chat */
     .chat-container {
       position: fixed;
       bottom: 100px;
@@ -46,10 +56,11 @@
       height: 480px;
       background: white;
       border-radius: 12px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
       overflow: hidden;
       display: none;
       flex-direction: column;
+      z-index: 999;
     }
     iframe {
       width: 100%;
@@ -59,30 +70,63 @@
     .close-chat {
       background: #004b8d;
       color: white;
-      padding: 6px;
+      padding: 8px;
       text-align: center;
       cursor: pointer;
       font-size: 14px;
+      font-weight: bold;
     }
-    .close-chat:hover { background: #006fe6; }
+    .close-chat:hover {
+      background: #006fe6;
+    }
+
+    /* Responsivo para pantallas pequeñas */
+    @media (max-width: 600px) {
+      .chat-container {
+        width: 90%;
+        height: 70%;
+        right: 5%;
+        bottom: 90px;
+      }
+      .chat-button {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <h1>Asistente Virtual - Municipio de Sogamoso</h1>
-  <p>Bienvenido al asistente virtual para licencias de intervención y ocupación del espacio público.</p>
+  <p>Bienvenido al asistente virtual para licencias de intervención y ocupación del espacio público.  
+  Este chatbot está diseñado para guiarte paso a paso en tus trámites.</p>
+
+  <!-- Botón flotante -->
   <button class="chat-button" id="chatToggle">💬</button>
+
+  <!-- Contenedor del chatbot -->
   <div class="chat-container" id="chatContainer">
     <div class="close-chat" id="closeChat">Cerrar chat ✖️</div>
-   <iframe height="430" width="350" src="https://bot.dialogflow.com/48e2125d-63af-4c42-ad16-16e4bce51604"></iframe>
+    <!-- IFRAME del chatbot de Dialogflow -->
+    <iframe
+      src="https://bot.dialogflow.com/48e2125d-63af-4c42-ad16-16e4bce51604"
+      allow="microphone;">
+    </iframe>
   </div>
+
   <script>
     const chatButton = document.getElementById('chatToggle');
     const chatContainer = document.getElementById('chatContainer');
     const closeChat = document.getElementById('closeChat');
+
+    // Abrir el chatbot
     chatButton.addEventListener('click', () => {
       chatContainer.style.display = 'flex';
       chatButton.style.display = 'none';
     });
+
+    // Cerrar el chatbot
     closeChat.addEventListener('click', () => {
       chatContainer.style.display = 'none';
       chatButton.style.display = 'block';
